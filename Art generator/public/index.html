@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Art Description Generator — SEO + AEO Optimized</title>
+  <meta name="description" content="Generate professional SEO and AEO-optimized product descriptions for artwork with 5-layer optimization." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="app-header">
+  <div class="header-inner">
+    <div class="logo-group">
+      <div class="logo-icon">🎨</div>
+      <div class="logo-text">
+        <h1>Art Description Generator</h1>
+        <p>5-Layer SEO + AEO Optimization Engine</p>
+      </div>
+    </div>
+    <div class="header-badges">
+      <span class="skill-badge badge-l1">SEO Visibility</span>
+      <span class="skill-badge badge-l2">Description SEO</span>
+      <span class="skill-badge badge-l3">Content Writer</span>
+      <span class="skill-badge badge-l4">SEO Geo</span>
+      <span class="skill-badge badge-l5">AEO Best Practices</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== MAIN ===== -->
+<main class="app-main">
+
+  <!-- ============ INPUT FORM ============ -->
+  <aside>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:rgba(124,58,237,0.2);">✏️</div>
+        <h2>Artwork Details</h2>
+      </div>
+      <div class="card-body">
+        <form id="artForm" novalidate>
+
+          <!-- API KEY -->
+          <div class="form-section">
+            <div class="section-label">API Key</div>
+            <div class="form-group">
+              <label class="form-label" for="apiKey">
+                Anthropic API Key
+                <span style="color:var(--text-muted);font-weight:400;margin-left:4px;">(or set in server .env)</span>
+              </label>
+              <div class="api-key-wrap">
+                <input type="password" id="apiKey" class="form-control" placeholder="sk-ant-…" autocomplete="off" />
+                <button type="button" class="key-toggle" onclick="toggleApiKey()" title="Show / hide key">👁</button>
+              </div>
+              <p class="field-hint">Stored in session memory only — cleared when you close the tab.</p>
+            </div>
+          </div>
+
+          <!-- REQUIRED FIELDS -->
+          <div class="form-section">
+            <div class="section-label">Required Information</div>
+
+            <div class="form-group">
+              <label class="form-label" for="artworkTitle">Artwork Title <span class="req">*</span></label>
+              <input type="text" id="artworkTitle" class="form-control" placeholder="e.g. Solitude in Blue" maxlength="120" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="artistName">Artist / Brand Name <span class="req">*</span></label>
+              <input type="text" id="artistName" class="form-control" placeholder="e.g. Maria Santos" maxlength="80" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="medium">Medium &amp; Materials <span class="req">*</span></label>
+              <input type="text" id="medium" class="form-control" placeholder="e.g. Oil on linen canvas" maxlength="120" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="description">
+                Inspiration / Brief Description <span class="req">*</span>
+                <span class="char-counter" id="descCounter">0 / 800</span>
+              </label>
+              <textarea id="description" class="form-textarea" placeholder="Describe the artwork, the inspiration behind it, and any story worth telling… (min 100 characters)" maxlength="800" rows="4" oninput="updateCounter()"></textarea>
+              <p class="field-hint" id="descHint">Minimum 100 characters for best results.</p>
+            </div>
+          </div>
+
+          <!-- ARTWORK DETAILS -->
+          <div class="form-section">
+            <div class="section-label">Artwork Details</div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" for="dimensions">Dimensions</label>
+                <input type="text" id="dimensions" class="form-control" placeholder='e.g. 24" × 36"' maxlength="60" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="edition">Edition Type</label>
+                <select id="edition" class="form-select">
+                  <option value="Original one-of-a-kind">Original</option>
+                  <option value="Limited edition print">Limited Edition Print</option>
+                  <option value="Open edition print">Open Edition Print</option>
+                  <option value="Artist proof">Artist Proof</option>
+                  <option value="Giclee print">Giclée Print</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" for="price">Price (USD)</label>
+                <div class="input-prefix">
+                  <span>$</span>
+                  <input type="number" id="price" class="form-control" placeholder="0.00" min="0" max="9999999" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="style">Style / Movement</label>
+                <select id="style" class="form-select">
+                  <option value="Contemporary">Contemporary</option>
+                  <option value="Abstract">Abstract</option>
+                  <option value="Impressionist">Impressionist</option>
+                  <option value="Realism">Realism</option>
+                  <option value="Expressionism">Expressionism</option>
+                  <option value="Minimalism">Minimalism</option>
+                  <option value="Surrealism">Surrealism</option>
+                  <option value="Mixed media">Mixed Media</option>
+                  <option value="Digital art">Digital Art</option>
+                  <option value="Street art / Urban">Street Art / Urban</option>
+                  <option value="Folk art">Folk Art</option>
+                  <option value="Photography">Photography</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- SEO & MARKETING -->
+          <div class="form-section">
+            <div class="section-label">SEO &amp; Marketing</div>
+
+            <div class="form-group">
+              <label class="form-label" for="keywords">Target Keywords (optional)</label>
+              <input type="text" id="keywords" class="form-control" placeholder="e.g. abstract wall art, blue painting for living room" maxlength="200" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="location">City / Region (for Geo SEO)</label>
+              <input type="text" id="location" class="form-control" placeholder="e.g. New York, Brooklyn, Pacific Northwest" maxlength="80" />
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" for="brand">Gallery / Brand</label>
+                <input type="text" id="brand" class="form-control" placeholder="e.g. Blue Door Gallery" maxlength="80" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="websiteUrl">Website URL</label>
+                <input type="url" id="websiteUrl" class="form-control" placeholder="https://yoursite.com" maxlength="200" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Error Alert -->
+          <div id="formError" class="alert alert-error" style="display:none;"></div>
+
+          <div class="btn-row">
+            <button type="button" class="btn-clear" onclick="clearForm()" title="Clear all fields">
+              ✕ Clear
+            </button>
+            <button type="submit" class="btn-generate" id="generateBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+              </svg>
+              <span id="btnText">Generate SEO + AEO Description</span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ OUTPUT PANEL ============ -->
+  <section>
+    <div class="card output-panel" id="outputPanel">
+
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state">
+        <div class="empty-icon">🖼️</div>
+        <h3>Your optimized description will appear here</h3>
+        <p>Fill in your artwork details and click Generate to receive a complete 5-layer SEO + AEO optimization package.</p>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loadingState" class="loading-state" style="display:none;">
+        <div class="spinner-ring"></div>
+        <p style="color:var(--text-secondary);margin:0 0 8px;font-weight:600;">Generating your optimization package…</p>
+        <p style="color:var(--text-muted);font-size:0.8rem;margin:0;">This usually takes 10–20 seconds</p>
+        <div class="loading-steps">
+          <div class="loading-step active" id="step1"><span class="step-dot"></span>Applying SEO Visibility Expert…</div>
+          <div class="loading-step" id="step2"><span class="step-dot"></span>Running Description SEO analysis…</div>
+          <div class="loading-step" id="step3"><span class="step-dot"></span>Writing HOOK-STORY-MEDIUM-OFFER-VSL…</div>
+          <div class="loading-step" id="step4"><span class="step-dot"></span>Applying Geographic optimization…</div>
+          <div class="loading-step" id="step5"><span class="step-dot"></span>Running AEO best practices check…</div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="resultsState" style="display:none;">
+        <!-- Results toolbar -->
+        <div class="results-toolbar">
+          <span class="results-label">✅ Generation complete</span>
+          <button class="btn-download" onclick="downloadZip()" title="Download all outputs as ZIP">
+            ⬇ Download ZIP
+          </button>
+        </div>
+        <!-- Layer Tabs -->
+        <div class="layer-tabs">
+          <button class="tab-btn active" data-layer="1" data-tab="layer1">
+            🔍 Layer 1 — SEO Visibility
+          </button>
+          <button class="tab-btn" data-layer="2" data-tab="layer2">
+            📈 Layer 2 — Description SEO
+          </button>
+          <button class="tab-btn" data-layer="3" data-tab="layer3">
+            ✍️ Layer 3 — Content Writer
+          </button>
+          <button class="tab-btn" data-layer="4" data-tab="layer4">
+            🗺️ Layer 4 — GEO
+          </button>
+          <button class="tab-btn" data-layer="5" data-tab="layer5">
+            🤖 Layer 5 — AEO
+          </button>
+        </div>
+
+        <!-- ======= TAB 1: SEO VISIBILITY ======= -->
+        <div class="tab-pane active fade-in" id="layer1">
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">📋</span> llms.txt Template</div>
+            <div class="code-block">
+              <pre id="llmsTxtOutput"></pre>
+              <button class="copy-btn" onclick="copyCode('llmsTxtOutput', this)">📋 Copy</button>
+            </div>
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">🏗️</span> JSON-LD Schema Markup</div>
+            <div class="code-block">
+              <pre id="jsonLdOutput"></pre>
+              <button class="copy-btn" onclick="copyCode('jsonLdOutput', this)">📋 Copy</button>
+            </div>
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">🤖</span> robots.txt Recommendations</div>
+            <div class="code-block">
+              <pre id="robotsTxtOutput"></pre>
+              <button class="copy-btn" onclick="copyCode('robotsTxtOutput', this)">📋 Copy</button>
+            </div>
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">⚡</span> Performance Tips</div>
+            <ul class="styled-list" id="perfTipsOutput"></ul>
+          </div>
+
+        </div>
+
+        <!-- ======= TAB 2: DESCRIPTION SEO ======= -->
+        <div class="tab-pane fade-in" id="layer2">
+
+          <div id="seoScoreRing" class="score-ring-wrap" style="margin-bottom:20px;">
+            <!-- injected by JS -->
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">🎯</span> SEO Title</div>
+            <div class="code-block">
+              <pre id="seoTitleOutput"></pre>
+              <button class="copy-btn" onclick="copyCode('seoTitleOutput', this)">📋 Copy</button>
+            </div>
+            <div style="margin-top:8px;" id="titleLengthBar"></div>
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">📝</span> Meta Description</div>
+            <div class="code-block">
+              <pre id="metaDescOutput"></pre>
+              <button class="copy-btn" onclick="copyCode('metaDescOutput', this)">📋 Copy</button>
+            </div>
+            <div style="margin-top:8px;" id="metaLengthBar"></div>
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">🔗</span> Suggested URL Slug</div>
+            <div class="code-block">
+              <pre id="urlSlugOutput"></pre>
+              <button class="copy-btn" onclick="copyCode('urlSlugOutput', this)">📋 Copy</button>
+            </div>
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">🔑</span> Keywords</div>
+            <div id="keywordsOutput"></div>
+          </div>
+
+          <div class="metrics-grid" id="seoMetricsGrid">
+            <!-- injected by JS -->
+          </div>
+
+          <div class="output-section" id="scoreBreakdownSection">
+            <div class="section-title"><span class="emoji">📊</span> SEO Score Breakdown</div>
+            <div id="scoreBreakdownBars"></div>
+          </div>
+
+        </div>
+
+        <!-- ======= TAB 3: CONTENT WRITER ======= -->
+        <div class="tab-pane fade-in" id="layer3">
+
+          <div class="metrics-grid" id="contentMetricsGrid"></div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">📖</span> Full Description — HOOK · STORY · MEDIUM · OFFER · VSL</div>
+            <div class="description-box" id="fullDescriptionOutput"></div>
+            <div style="margin-top:8px;position:relative;">
+              <div class="code-block" style="display:none;" id="rawDescBlock">
+                <pre id="rawDescOutput"></pre>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:10px;">
+              <button class="copy-btn" style="position:static;" onclick="copyRawDescription()">📋 Copy Plain Text</button>
+              <button class="copy-btn" style="position:static;" id="toggleStructureBtn" onclick="toggleStructure()">🏗️ Show Sections</button>
+            </div>
+          </div>
+
+          <div id="structureSections" style="display:none;">
+            <div class="output-section">
+              <div class="section-title"><span class="emoji">🎣</span> HOOK</div>
+              <div class="description-box" id="hookOutput"></div>
+            </div>
+            <div class="output-section">
+              <div class="section-title"><span class="emoji">📚</span> STORY</div>
+              <div class="description-box" id="storyOutput"></div>
+            </div>
+            <div class="output-section">
+              <div class="section-title"><span class="emoji">🖼️</span> MEDIUM</div>
+              <div class="description-box" id="mediumOutput"></div>
+            </div>
+            <div class="output-section">
+              <div class="section-title"><span class="emoji">💎</span> OFFER</div>
+              <div class="description-box" id="offerOutput"></div>
+            </div>
+            <div class="output-section">
+              <div class="section-title"><span class="emoji">📣</span> VSL</div>
+              <div class="description-box" id="vslOutput"></div>
+            </div>
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">⚙️</span> Engagement Analysis</div>
+            <div id="engagementChecklist" class="checklist"></div>
+          </div>
+
+        </div>
+
+        <!-- ======= TAB 4: GEO ======= -->
+        <div class="tab-pane fade-in" id="layer4">
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">📍</span> Geographic Keywords</div>
+            <div id="geoKeywordsOutput"></div>
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">📌</span> Location-Enhanced Title Variations</div>
+            <ul class="styled-list" id="geoTitlesOutput"></ul>
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">📝</span> Regional Meta Description</div>
+            <div class="code-block">
+              <pre id="geoMetaOutput"></pre>
+              <button class="copy-btn" onclick="copyCode('geoMetaOutput', this)">📋 Copy</button>
+            </div>
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">🎯</span> Geo-Targeting Recommendations</div>
+            <ul class="styled-list" id="geoRecsOutput"></ul>
+          </div>
+
+          <div class="output-section" id="shippingNotesSection">
+            <div class="section-title"><span class="emoji">🚚</span> Shipping / Availability Notes</div>
+            <div class="description-box" id="shippingNotesOutput"></div>
+          </div>
+
+        </div>
+
+        <!-- ======= TAB 5: AEO ======= -->
+        <div class="tab-pane fade-in" id="layer5">
+
+          <div class="aeo-scores" id="aeoScores"></div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">🤖</span> AI-Optimized Summary</div>
+            <div class="description-box" id="aiSummaryOutput"></div>
+            <div style="margin-top:8px;position:relative;">
+              <div class="code-block">
+                <pre id="aiSummaryCode"></pre>
+                <button class="copy-btn" onclick="copyCode('aiSummaryCode', this)">📋 Copy</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">✅</span> AEO Optimization Checklist</div>
+            <div id="aeoChecklist" class="checklist"></div>
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">❓</span> Featured Snippet Q&amp;A</div>
+            <div id="featuredSnippetQA"></div>
+          </div>
+
+          <div class="output-section">
+            <div class="section-title"><span class="emoji">💡</span> AEO Improvement Suggestions</div>
+            <ul class="styled-list" id="aeoImprovementsOutput"></ul>
+          </div>
+
+        </div>
+        <!-- end tab panes -->
+
+      </div>
+      <!-- end resultsState -->
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="app-footer">
+  <p>Art Description Generator · 5-Layer SEO/AEO Optimization · Powered by Claude AI</p>
+</footer>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
